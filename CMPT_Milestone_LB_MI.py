@@ -117,6 +117,14 @@ def get_shapeid(routes):
 
 
 def search_shape_id(shapes, shape_id):
+    '''
+    purpose: Prints co-ordinates of a given shape id
+    parameters:
+        - shapes (str): dictionary of shape IDs and cordinates
+        - shape_id (str): Shape ID to search for
+    return:
+        - None
+    '''
 
     try:
         shape = shapes[shape_id]
