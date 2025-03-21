@@ -1,6 +1,4 @@
 
-import load_route_data, load_shape_data
-
 def load_route_names(filename):
     '''
     purpose: Loads route ids and associated names into a dictionary
@@ -97,7 +95,7 @@ def main():
     '''
     route_file_path = 'data/routes.txt'
     shapes_file_path = 'data/shapes.txt'
-    trips_file_path = 'data/shapes.txt'
+    trips_file_path = 'data/trips.txt'
     route_names = None
     routes = None
     shapes = None
@@ -127,8 +125,16 @@ Edmonton Transit System
         if user_input == '1':
             # Prompt user for file name (With default set to default path)
             filename = input("Enter a filename: ").strip()
-            route_names = load_route_names(filename)
-            continue
+
+            if filename == '':
+                filename = trips_file_path
+            
+            route_names = load_route_names(route_file_path)
+            routes = load_routes(filename, route_names)
+            print(f'data from {filename} loaded')
+
+            for key in routes:
+                print(f'{key} : {routes[key]}')
             # Call function to load data
         elif user_input == '2':
             #Prompt user for file name (With default set to the default path)
