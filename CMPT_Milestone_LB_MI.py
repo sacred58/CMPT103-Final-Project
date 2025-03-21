@@ -1,3 +1,7 @@
+#------------------------------------
+# Max Ingram, Liam Barnes
+# Programming Project - Milestone#1
+#------------------------------------
 
 import pickle
 
@@ -125,6 +129,19 @@ def search_shape_id(shapes, shape_id):
         print(coord)
 
 def save_data(routes,shapes,pickle_file_path):
+    '''
+    purpose: saves pickled data to a file
+    parameters:
+        routes (dict): Dictionary with route_id, route name, and associated shape ids, setup like this:
+        routes = {route_id:{name:route_name, shape_ids: {set of shape ids}}}
+
+        shapes (dict): a dictionary containing a list of lat/long pairs connected to a shape ID, setup like this:
+        shapes = {shape_id:[(lat,long),(lat,long)]}
+
+        pickle_file_path (str): file to load from, defaults to data/etsdata.p
+    return:
+        None
+    '''
     try:
         with open(pickle_file_path, 'wb') as file:
             pickle.dump((routes, shapes), file)
@@ -133,12 +150,24 @@ def save_data(routes,shapes,pickle_file_path):
         return
 
 def load_data(pickle_file_path):
+    '''
+    purpose: loads pickled data from file
+    parameters:
+        pickle_file_path (str): file to load from, defaults to data/etsdata.p
+    return:
+        routes (dict): Dictionary with route_id, route name, and associated shape ids, setup like this:
+        routes = {route_id:{name:route_name, shape_ids: {set of shape ids}}}
+
+        shapes (dict): a dictionary containing a list of lat/long pairs connected to a shape ID, setup like this:
+        shapes = {shape_id:[(lat,long),(lat,long)]}
+    '''
     try:
         with open(pickle_file_path, 'rb') as file:
             routes, shapes = pickle.load(file)
     except IOError as err:
         print(err)
         return
+    return routes, shapes
 def main():
     '''
     purpose
@@ -148,7 +177,7 @@ def main():
     route_file_path = 'data/routes.txt'
     shapes_file_path = 'data/shapes.txt'
     trips_file_path = 'data/trips.txt'
-    pickle_file_path = 'etsdata.p'
+    pickle_file_path = 'data/etsdata.p'
     route_names = None
     routes = None
     shapes = None
@@ -222,13 +251,16 @@ Edmonton Transit System
             if filename == '':
                 filename = pickle_file_path
             save_data(routes,shapes,filename)
+            print("Data from {filename} loaded")
             continue
         elif user_input == '8':
             # Load route_names, routes, shapes from the aforementioned pickle
             filename = input("Enter a filename: ")
             if filename == '':
                 filename = pickle_file_path
-            load_data(filename)
+            routes, shapes = load_data(filename)
+            print("Data structures successfully written to {filename}")
+            
             continue
         elif user_input == '9':
             print('Option 9 reserved for Milestone#2 ')
