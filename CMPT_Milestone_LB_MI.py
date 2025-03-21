@@ -89,7 +89,8 @@ def load_shapes(filename):
     #fill in the lat/long list
     for rows in range(1,len(shape)):
         column = shape[rows].split(',')
-        shapes[column[0]].append(f'{column[1]},{column[2]}')
+        shapes[column[0]].append((column[1],column[2]))  
+
     return shapes
 
 def main():
