@@ -1,4 +1,4 @@
-def load_route_data(filename):
+def load_route_names(filename):
     try:
         with open(filename, 'r') as file:
             route = file.readlines()
@@ -9,3 +9,5 @@ def load_route_data(filename):
         column = route[rows].split(',')
         route_data.update({column[0]:column[3]})
     return route_data
+
+def load_routes(filename):

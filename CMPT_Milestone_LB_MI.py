@@ -10,6 +10,7 @@ def main():
     route_file_path = 'data/routes.txt'
     shapes_file_path = 'data/shapes.txt'
     trips_file_path = 'data/shapes.txt'
+    
 
     options = '''
 Edmonton Transit System
@@ -36,7 +37,7 @@ Edmonton Transit System
         if user_input == '1':
             # Prompt user for file name (With default set to default path)
             filename = input("Enter a filename: ").strip()
-            load_route_data(filename)
+            route_names = load_route_names(filename)
             continue
             # Call function to load data
         elif user_input == '2':
