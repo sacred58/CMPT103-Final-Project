@@ -14,6 +14,7 @@ def load_route_names(filename):
             route = file.readlines()
     except IOError as err:
         print(err)
+        return
     route_data = {}
 
     # For each line in the file, collects route id and route name
@@ -41,8 +42,10 @@ def load_routes(filename, route_names):
     try:
         with open(filename, 'r') as file:
             lines = file.readlines()
+            print(f'Data from {filename} loaded')
     except IOError as err:
         print(err)
+        return
     routes = {}
 
     # Collects all the route ids
@@ -73,8 +76,10 @@ def load_shapes(filename):
     try:
         with open(filename, 'r') as file:
             shape = file.readlines()
+            print(f'Data from {filename} loaded')
     except IOError as err:
         print(err)
+        return
 
     shapes = {}
     #create a dictionary with each of the shapeIDs, the empty list to fill in with lat/long after
@@ -126,22 +131,24 @@ Edmonton Transit System
             # Prompt user for file name (With default set to default path)
             filename = input("Enter a filename: ").strip()
 
+            # If user does not enter anything, default to the default trips file path
             if filename == '':
                 filename = trips_file_path
             
             route_names = load_route_names(route_file_path)
             routes = load_routes(filename, route_names)
-            print(f'data from {filename} loaded')
 
-            for key in routes:
-                print(f'{key} : {routes[key]}')
-            # Call function to load data
         elif user_input == '2':
             #Prompt user for file name (With default set to the default path)
-            continue
-            # Call function to load data
+            filename = input("Enter a filename: ").strip()
+
+            if filename == '':
+                filename = shapes_file_path
+
+            shapes = load_shapes(filename)
+            
         elif user_input == '3':
-            print("Reserved for future use")
+            print("Option 3 reserved for Milestone#2")
         elif user_input == '4':
             # Print shape ids for route from routes dictionary
             continue
@@ -150,7 +157,7 @@ Edmonton Transit System
             # find shape coordinates and print them
             continue
         elif user_input == '6':
-            print('Reserved for future use')
+            print('Option 4 reservved for Milestone#2')
         elif user_input == '7':
             # Save route_names, routes, shapes in a pickle
             continue
@@ -158,7 +165,7 @@ Edmonton Transit System
             # Load route_names, routes, shapes from the aforementioned pickle
             continue
         elif user_input == '9':
-            print('Reserved for future use')
+            print('Option 9 reserved for Milestone#2 ')
         elif user_input == '0':
             break
 
