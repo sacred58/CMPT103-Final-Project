@@ -259,7 +259,7 @@ Edmonton Transit System
             if filename == '':
                 filename = pickle_file_path
             save_data(routes,shapes,filename)
-            print(f"Data from {filename} loaded")
+            print(f"Data structures successfully written to {filename}")
             continue
         elif user_input == '8':
             # Load route_names, routes, shapes from the aforementioned pickle
@@ -271,7 +271,7 @@ Edmonton Transit System
             except:
                 continue
 
-            print(f"Data structures successfully written to {filename}")
+            print(f'Data from {filename} loaded')
             
             continue
         elif user_input == '9':
