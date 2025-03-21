@@ -71,6 +71,7 @@ def load_shapes(filename):
         filename (str): the file path to the shape data
     returns:
         shapes (dict): a dictionary containing a list of lat/long pairs connected to a shape ID
+        shapes = {shape_id:[(lat,long),(lat,long)]}
     '''
     #Check that the file exists
     try:
@@ -95,13 +96,18 @@ def load_shapes(filename):
 
 def get_shapeid(routes):
     '''
-    
+    purpose: print all the shapeids connected to a route id
+    parameters:
+        routes (dict): the routes dictionary gotten above 
+    return: None
     '''
     route = input("Enter route: ").strip()
     if route in routes:
-        print(f"Shape ids for route {routes[route]['name']}")
+        print(f"Shape ids for route [{routes[route]['name'].strip('"')}]")
         for item in routes[route]['shape_ids']:
             print('\t' + str(item))
+    else:
+        print('\t' + "** NOT FOUND **")
 
 def main():
     '''
@@ -162,7 +168,10 @@ Edmonton Transit System
             print("Option 3 reserved for Milestone#2")
         elif user_input == '4':
             # Print shape ids for route from routes dictionary
-            get_shapeid(routes)
+            if routes == None:
+                print("Route data hasn't been loaded yet")
+            else:
+                get_shapeid(routes)
             continue
         elif user_input == '5':
             # Prompt user for a shape id
