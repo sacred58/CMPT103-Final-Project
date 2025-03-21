@@ -10,7 +10,9 @@ def main():
     route_file_path = 'data/routes.txt'
     shapes_file_path = 'data/shapes.txt'
     trips_file_path = 'data/shapes.txt'
-    
+    route_names = None
+    routes = None
+    shapes = None
 
     options = '''
 Edmonton Transit System
