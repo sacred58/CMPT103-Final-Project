@@ -35,6 +35,8 @@ Edmonton Transit System
 
         if user_input == '1':
             # Prompt user for file name (With default set to default path)
+            filename = input("Enter a filename: ").strip()
+            load_route_data(filename)
             continue
             # Call function to load data
         elif user_input == '2':
