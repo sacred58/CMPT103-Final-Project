@@ -109,6 +109,20 @@ def get_shapeid(routes):
     else:
         print('\t' + "** NOT FOUND **")
 
+
+def search_shape_id(shapes, shape_id):
+
+    try:
+        shape = shapes[shape_id]
+    except:
+        print("\t** NOT FOUND **")
+        return
+    
+    print(f'Shape ID coordinates for {shape_id} are:')
+    for coord in shape:
+        print(coord)
+
+
 def main():
     '''
     purpose
@@ -174,8 +188,14 @@ Edmonton Transit System
                 get_shapeid(routes)
             continue
         elif user_input == '5':
-            # Prompt user for a shape id
-            # find shape coordinates and print them
+
+            if shapes == None:
+                print("Shape ID data hasn't been loaded yet")
+            else:
+                user_input = input("Enter shape ID: ").strip()
+                search_shape_id(shapes, user_input)
+
+ 
             continue
         elif user_input == '6':
             print('Option 4 reservved for Milestone#2')
