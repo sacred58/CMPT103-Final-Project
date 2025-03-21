@@ -93,6 +93,16 @@ def load_shapes(filename):
 
     return shapes
 
+def get_shapeid(routes):
+    '''
+    
+    '''
+    route = input("Enter route: ").strip()
+    if route in routes:
+        print(f"Shape ids for route {routes[route]['name']}")
+        for item in routes[route]['shape_ids']:
+            print('\t' + str(item))
+
 def main():
     '''
     purpose
@@ -152,6 +162,7 @@ Edmonton Transit System
             print("Option 3 reserved for Milestone#2")
         elif user_input == '4':
             # Print shape ids for route from routes dictionary
+            get_shapeid(routes)
             continue
         elif user_input == '5':
             # Prompt user for a shape id
