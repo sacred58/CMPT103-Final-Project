@@ -266,7 +266,11 @@ Edmonton Transit System
             filename = input("Enter a filename: ")
             if filename == '':
                 filename = pickle_file_path
-            routes, shapes = load_data(filename)
+            try:
+                routes, shapes = load_data(filename)
+            except:
+                continue
+
             print(f"Data structures successfully written to {filename}")
             
             continue
