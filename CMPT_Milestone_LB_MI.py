@@ -170,9 +170,9 @@ def load_data(pickle_file_path):
     return routes, shapes
 def main():
     '''
-    purpose
-    parameters
-    return
+    purpose: Runs a menu to select other functions to load and view transit data
+    parameters: None
+    return: None
     '''
     route_file_path = 'data/routes.txt'
     shapes_file_path = 'data/shapes.txt'
