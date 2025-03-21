@@ -1,4 +1,6 @@
 
+import pickle
+
 def load_route_names(filename):
     '''
     purpose: Loads route ids and associated names into a dictionary
@@ -122,7 +124,21 @@ def search_shape_id(shapes, shape_id):
     for coord in shape:
         print(coord)
 
+def save_data(routes,shapes,pickle_file_path):
+    try:
+        with open(pickle_file_path, 'wb') as file:
+            pickle.dump((routes, shapes), file)
+    except IOError as err:
+        print(err)
+        return
 
+def load_data(pickle_file_path):
+    try:
+        with open(pickle_file_path, 'rb') as file:
+            routes, shapes = pickle.load(file)
+    except IOError as err:
+        print(err)
+        return
 def main():
     '''
     purpose
@@ -132,6 +148,7 @@ def main():
     route_file_path = 'data/routes.txt'
     shapes_file_path = 'data/shapes.txt'
     trips_file_path = 'data/trips.txt'
+    pickle_file_path = 'etsdata.p'
     route_names = None
     routes = None
     shapes = None
@@ -201,9 +218,17 @@ Edmonton Transit System
             print('Option 4 reservved for Milestone#2')
         elif user_input == '7':
             # Save route_names, routes, shapes in a pickle
+            filename = input("Enter a filename: ")
+            if filename == '':
+                filename = pickle_file_path
+            save_data(routes,shapes,filename)
             continue
         elif user_input == '8':
             # Load route_names, routes, shapes from the aforementioned pickle
+            filename = input("Enter a filename: ")
+            if filename == '':
+                filename = pickle_file_path
+            load_data(filename)
             continue
         elif user_input == '9':
             print('Option 9 reserved for Milestone#2 ')
