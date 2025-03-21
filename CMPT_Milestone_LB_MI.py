@@ -116,7 +116,7 @@ def search_shape_id(shapes, shape_id):
 
     try:
         shape = shapes[shape_id]
-    except:
+    except KeyError:
         print("\t** NOT FOUND **")
         return
     
