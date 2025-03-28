@@ -13,7 +13,7 @@ def load_route_names(filename):
     parameters
         filename (str): filename of the route and names file
     return
-        route_data (str): dictionary with {route_id : route_name}
+        route_data (dictionary): dictionary with {route_id : route_name}
     '''
 
     # Catching file not found error
@@ -241,7 +241,7 @@ def load_disruptions(filename):
 
         d = date(year, month_int, day)
 
-        # Process lat, lon data
+        # Process lon, lat data
         point = current_line[-1][7:-2]
         point = point.split(' ')
 
@@ -272,17 +272,52 @@ def lonlat_to_xy(win, lon, lat):
 
     return int(x), int(y)
 
-def graphical_interface():
+def draw_disruptions(win, disruptions):
     '''
-    purpose
-    parameters
-    return
+    purpose: Determine if a traffic disruption is still active and draw disruptions on map 
+    accordingly
+    parameters:
+        - win: reference to window object containing the map
+        - disruptions (set): set of traffic disruptions with date and lon and lat
+    return:
+        - None
     '''
 
+    today = date.today()
+
+    for element in disruptions:
+        enddate, lonlat = element
+        lon, lat = lonlat
+        # If the traffic disruption is still ongoing
+        if enddate > today:
+            # Plot disruption on map
+            x, y = lonlat_to_xy(win, lon, lat)
+            disruption = Circle(Point(x, y), 5) 
+            disruption.setFill('red')
+            disruption.draw(win)
+        else:
+            continue
+        
+def graphical_interface(routes, route_names, shapes, disruptions):
+    '''
+    purpose: Define window with map and call coresponding helper functions for all functionality
+    parameters: 
+        - routes (dictionary): dictionary with route_id, route_name, and associated shape_ids
+        - route_names (dictionary): dictionary with {route_id: route_name}
+        - shapes (dictionary): dictionary with shape_ids and coordinates
+        - disruptions (set): set with traffic disruptions locations and dates they are active
+    return
+        - None
+    '''
+
+    # Create basic window
     win = GraphWin('ETS Data', 800, 920)
     bkground = Image(Point(win.getWidth() // 2, win.getHeight() // 2), 'edmonton.png')
     bkground.draw(win)
-    win.getMouse()
+
+    # Draw disruptions
+    draw_disruptions(win, disruptions)
+
 
 
 def main():
@@ -398,7 +433,10 @@ Edmonton Transit System
             continue
         elif user_input == '9':
             # Start graphical interface
-            graphical_interface()
+            if routes == None or shapes == None or disruptions == None:
+                print('ETS transit information not loaded yet')
+            else:
+                graphical_interface(routes, route_file_path, shapes, disruptions)
         elif user_input == '0':
             break
 
