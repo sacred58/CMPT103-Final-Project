@@ -5,6 +5,7 @@
 
 import pickle
 from datetime import date
+from graphics import *
 
 def load_route_names(filename):
     '''
@@ -110,7 +111,8 @@ def get_shapeid(routes):
     '''
     route = input("Enter route: ").strip()
     if route in routes:
-        print(f"Shape ids for route [{routes[route]['name'].strip('"')}]")
+        route_name = routes[route]["name"].strip('"')
+        print(f'Shape ids for route [{route_name}]')
         for item in routes[route]['shape_ids']:
             print('\t' + str(item))
     else:
@@ -278,8 +280,10 @@ def graphical_interface():
     '''
 
     win = GraphWin('ETS Data', 800, 920)
-    bkground = Image(Point(win.getWidth // 2, win.getHeight() // 2), 'edmonton.png')
+    bkground = Image(Point(win.getWidth() // 2, win.getHeight() // 2), 'edmonton.png')
     bkground.draw(win)
+    win.getMouse()
+
 
 def main():
     '''
