@@ -335,7 +335,12 @@ Edmonton Transit System
  
             continue
         elif user_input == '6':
-            longest_shape(routes,shapes)
+            if routes == None:
+                print("Route data hasn't been loaded yet")
+            elif shapes == None:
+                print("Shape ID data hasn't been loaded yet")
+            else:
+                longest_shape(routes,shapes)
         elif user_input == '7':
             # Save route_names, routes, shapes in a pickle
             filename = input("Enter a filename: ")
