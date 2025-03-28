@@ -270,6 +270,17 @@ def lonlat_to_xy(win, lon, lat):
 
     return int(x), int(y)
 
+def graphical_interface():
+    '''
+    purpose
+    parameters
+    return
+    '''
+
+    win = GraphWin('ETS Data', 800, 920)
+    bkground = Image(Point(win.getWidth // 2, win.getHeight() // 2), 'edmonton.png')
+    bkground.draw(win)
+
 def main():
     '''
     purpose: Runs a menu to select other functions to load and view transit data
@@ -382,7 +393,8 @@ Edmonton Transit System
             
             continue
         elif user_input == '9':
-            print('Option 9 reserved for Milestone#2 ')
+            # Start graphical interface
+            graphical_interface()
         elif user_input == '0':
             break
 
