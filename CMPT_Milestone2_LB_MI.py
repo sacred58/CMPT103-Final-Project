@@ -138,6 +138,14 @@ def search_shape_id(shapes, shape_id):
         print(coord)
     
 def longest_shape(routes,shapes):
+    '''
+    purpose: Get the shape with the longest list of coordinates attached to it
+    parameters:
+        routes (dict): the routes dictionary gotten above 
+        shapes (str): dictionary of shape IDs and cordinates
+    returns:
+        None
+    '''
     routeid = input("Enter route ID: ")
     longest_shape = None
     highest = 0
@@ -151,7 +159,7 @@ def longest_shape(routes,shapes):
 
     print(f"The longest shape for {routeid} is {longest_shape} with {highest} coordinates")
 
-def save_data(routes,shapes,pickle_file_path):
+def save_data(routes,shapes,disruptions,pickle_file_path):
     '''
     purpose: saves pickled data to a file
     parameters:
@@ -167,7 +175,7 @@ def save_data(routes,shapes,pickle_file_path):
     '''
     try:
         with open(pickle_file_path, 'wb') as file:
-            pickle.dump((routes, shapes), file)
+            pickle.dump((routes, shapes, disruptions), file)
     except IOError as err:
         print(err)
         return
@@ -186,11 +194,11 @@ def load_data(pickle_file_path):
     '''
     try:
         with open(pickle_file_path, 'rb') as file:
-            routes, shapes = pickle.load(file)
+            routes, shapes, disruptions = pickle.load(file)
     except IOError as err:
         print(err)
         return
-    return routes, shapes
+    return routes, shapes, disruptions
 
 def load_disruptions(filename):
     '''
@@ -264,16 +272,16 @@ Edmonton Transit System
 -------------------------
 (1) Load route data
 (2) Load shapes data
-(3) Reserved for future use
+(3) Load disruptions data
 
 (4) Print shape IDs for a route
 (5) Print coordinates for a shape ID
-(6) Reserved for future use
+(6) Find longest shape for route
 
 (7) Save routes and shapes in a pickle
 (8) Load routes and shapes from a pickle
 
-(9) Reserved for future use
+(9) Interactive map
 (0) Quit
 '''
 
@@ -333,7 +341,7 @@ Edmonton Transit System
             filename = input("Enter a filename: ")
             if filename == '':
                 filename = pickle_file_path
-            save_data(routes,shapes,filename)
+            save_data(routes,shapes,disruptions,filename)
             print(f"Data structures successfully written to {filename}")
             continue
         elif user_input == '8':
@@ -342,7 +350,7 @@ Edmonton Transit System
             if filename == '':
                 filename = pickle_file_path
             try:
-                routes, shapes = load_data(filename)
+                routes, shapes,disruptions = load_data(filename)
             except:
                 continue
 
