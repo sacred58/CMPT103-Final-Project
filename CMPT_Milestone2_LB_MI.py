@@ -135,6 +135,20 @@ def search_shape_id(shapes, shape_id):
     print(f'Shape ID coordinates for {shape_id} are:')
     for coord in shape:
         print(coord)
+    
+def longest_shape(routes,shapes):
+    routeid = input("Enter route ID: ")
+    longest_shape = None
+    highest = 0
+    if routeid in routes:
+        for shape in routes[routeid]['shape_ids']:
+            if len(shapes[shape]) > highest:
+                highest = len(shapes[shape])
+                longest_shape = shape
+    else:
+        print('\t' + "** NOT FOUND **")
+
+    print(f"The longest shape for {routeid} is {longest_shape} with {highest} coordinates")
 
 def save_data(routes,shapes,pickle_file_path):
     '''
@@ -252,7 +266,7 @@ Edmonton Transit System
  
             continue
         elif user_input == '6':
-            print('Option 4 reservved for Milestone#2')
+            longest_shape(routes,shapes)
         elif user_input == '7':
             # Save route_names, routes, shapes in a pickle
             filename = input("Enter a filename: ")
