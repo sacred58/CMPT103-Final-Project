@@ -306,23 +306,24 @@ def draw_shape_id(win, shapes, shape_id):
     '''
 
     coords = shapes[shape_id]
+    print(coords)
 
-    for index in range(0, 2, len(coords)):
-        lon, lat = coords[index]
-        x1, y1 = lonlat_to_xy(win, lon, lat)
-        start = Point()
-        end = Point(coords[index + 1])
+    for index in range(0, len(coords) - 1):
+        lat1, lon1 = coords[index]
+        lon1 = float(lon1)
+        lat1 = float(lat1)
+        x1, y1 = lonlat_to_xy(win, lon1, lat1)
+        start = Point(x1, y1)
+        lat2, lon2 = coords[index + 1]
+        lon2 = float(lon2)
+        lat2 = float(lat2)
+        x2, y2 = lonlat_to_xy(win, lon2, lat2)
+        end = Point(x2, y2)
         line = Line(start, end)
+        line.setFill('blue')
+        line.setWidth(3)
         line.draw(win)
-        
-        
-
-
-
-
-
-
-        
+                
 def graphical_interface(routes, route_names, shapes, disruptions):
     '''
     purpose: Define window with map and call coresponding helper functions for all functionality
@@ -345,7 +346,7 @@ def graphical_interface(routes, route_names, shapes, disruptions):
 
     # Search for routes
     # Draw according to shape_id
-    draw_shape_id(win, shapes, '056-148-East')
+    draw_shape_id(win, shapes, '123-3-North')
 
 
 
@@ -474,3 +475,4 @@ Edmonton Transit System
             continue
 
 main()
+
