@@ -297,6 +297,31 @@ def draw_disruptions(win, disruptions):
             disruption.draw(win)
         else:
             continue
+
+def draw_shape_id(win, shapes, shape_id):
+    '''
+    purpose
+    parameters
+    return
+    '''
+
+    coords = shapes[shape_id]
+
+    for index in range(0, 2, len(coords)):
+        lon, lat = coords[index]
+        x1, y1 = lonlat_to_xy(win, lon, lat)
+        start = Point()
+        end = Point(coords[index + 1])
+        line = Line(start, end)
+        line.draw(win)
+        
+        
+
+
+
+
+
+
         
 def graphical_interface(routes, route_names, shapes, disruptions):
     '''
@@ -317,6 +342,10 @@ def graphical_interface(routes, route_names, shapes, disruptions):
 
     # Draw disruptions
     draw_disruptions(win, disruptions)
+
+    # Search for routes
+    # Draw according to shape_id
+    draw_shape_id(win, shapes, '056-148-East')
 
 
 
