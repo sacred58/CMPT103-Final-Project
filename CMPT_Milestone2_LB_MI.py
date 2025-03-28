@@ -320,10 +320,18 @@ def draw_shape_id(win, shapes, shape_id):
         x2, y2 = lonlat_to_xy(win, lon2, lat2)
         end = Point(x2, y2)
         line = Line(start, end)
-        line.setFill('blue')
-        line.setWidth(3)
-        line.draw(win)
-                
+        line.draw(win)           
+
+def in_rectangle(click_point, rect) -> bool:
+    # if click-point is inside rect return True, else return False
+    x_check = (rect.getP1().getX() < click_point.getX() < rect.getP2().getX()
+               or rect.getP2().getX() < click_point.getX() < rect.getP1().getX())
+
+    y_check = (rect.getP1().getY() < click_point.getY() < rect.getP2().getY()
+               or rect.getP2().getY() < click_point.getY() < rect.getP1().getY())
+
+    return x_check and y_check
+        
 def graphical_interface(routes, route_names, shapes, disruptions):
     '''
     purpose: Define window with map and call coresponding helper functions for all functionality
@@ -340,6 +348,40 @@ def graphical_interface(routes, route_names, shapes, disruptions):
     win = GraphWin('ETS Data', 800, 920)
     bkground = Image(Point(win.getWidth() // 2, win.getHeight() // 2), 'edmonton.png')
     bkground.draw(win)
+
+    from_text = Text(Point(30.0, 50.0), "From:")
+    from_text.draw(win)
+    from_entry = Entry(Point(150.0,50.0),20)
+    from_entry.draw(win)
+    
+    to_text = Text(Point(30.0,75), "To:")
+    to_text.draw(win)
+    to_entry = Entry(Point(150.0,75),20)
+    to_entry.draw(win)
+
+    search_button = Rectangle(Point(60,115),Point(180,135))
+    search_button.setOutline('black')
+    search_button.setWidth(3)
+    search_button.draw(win)
+    search_text = Text(search_button.getCenter(), 'Search')
+    search_text.setSize(12)
+    search_text.draw(win)
+
+    clear_button = Rectangle(Point(60,145),Point(180,165))
+    clear_button.setOutline('black')
+    clear_button.setWidth(3)
+    clear_button.draw(win)
+    clear_text = Text(clear_button.getCenter(), 'Clear')
+    clear_text.setSize(12)
+    clear_text.draw(win)
+
+    click_point = win.getMouse()
+
+    if in_rectangle(click_point, search_button):
+        pass
+    elif in_rectangle(click_point, clear_button):
+        from_entry.setText('')    
+        to_entry.setText('')
 
     # Draw disruptions
     draw_disruptions(win, disruptions)
