@@ -349,6 +349,14 @@ def draw_shape_id(win, shapes, shape_id):
         line.draw(win)           
 
 def in_rectangle(click_point, rect) -> bool:
+    '''
+    purpose: Check if click is in a rectangle object
+    parameters: 
+        - click_point (coordinates): the coords of where the mouse was clicked
+        - rect (graphics rectangle): The rectangle object dimensions to check if the mouse was in
+    return
+        - x_check and y_check: whether or not the mouse was within the x and y size of the rectangle
+    '''
     # if click-point is inside rect return True, else return False
     x_check = (rect.getP1().getX() < click_point.getX() < rect.getP2().getX()
                or rect.getP2().getX() < click_point.getX() < rect.getP1().getX())
