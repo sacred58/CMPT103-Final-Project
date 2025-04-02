@@ -310,7 +310,7 @@ def draw_disruptions(win, disruptions):
         if enddate > today:
             # Plot disruption on map
             x, y = lonlat_to_xy(win, lon, lat)
-            disruption = Circle(Point(x, y), 5) 
+            disruption = Circle(Point(x, y), 3) 
             disruption.setFill('red')
             disruption.draw(win)
         else:
@@ -401,7 +401,7 @@ def graphical_interface(routes, route_names, shapes, disruptions):
     clear_text.setSize(12)
     clear_text.draw(win)
 
-    feedback_text = Text(Point(60.0,175), "")
+    feedback_text = Text(Point(130,185), "")
     feedback_text.draw(win)
 
     # Draw disruptions
