@@ -318,15 +318,21 @@ def draw_disruptions(win, disruptions):
 
 def draw_shape_id(win, shapes, shape_id):
     '''
-    purpose
-    parameters
-    return
+    purpose: Draws a shape of a certain shape_id onto the map
+    parameters:
+        - win (GraphWin0): Reference to the window object with the map
+        - shapes (Dictionary): Dictionary with shape_ids and co-ordinates
+        - shape_id (str): Shape_id of the shape to be drawn
+    return:
+        - None
     '''
 
     coords = shapes[shape_id]
-    #print(coords)
 
     for index in range(0, len(coords) - 1):
+        # Draws a line from the start and end point of 2 cordinates and 
+        # Moves to the next set of cordinates and uses the end point as the 
+        # Start point of the next
         lat1, lon1 = coords[index]
         lon1 = float(lon1)
         lat1 = float(lat1)
@@ -338,6 +344,8 @@ def draw_shape_id(win, shapes, shape_id):
         x2, y2 = lonlat_to_xy(win, lon2, lat2)
         end = Point(x2, y2)
         line = Line(start, end)
+        line.setFill('blue')
+        line.setWidth(2)
         line.draw(win)           
 
 def in_rectangle(click_point, rect) -> bool:
