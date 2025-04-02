@@ -433,6 +433,7 @@ def graphical_interface(routes, route_names, shapes, disruptions):
         elif in_rectangle(click_point, clear_button):
             from_entry.setText('')    
             to_entry.setText('')
+            feedback_text.setText('')
 
         
         
