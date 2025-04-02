@@ -161,6 +161,24 @@ def longest_shape(routes,shapes):
 
     print(f"The longest shape for {routeid} is {longest_shape} with {highest} coordinates")
 
+def get_longest_shape_helper(routes,shapes,routeid):
+    '''
+    purpose: Get the shape with the longest list of coordinates attached to it to return to the search function 
+    parameters:
+        routes (dict): the routes dictionary gotten above 
+        shapes (str): dictionary of shape IDs and cordinates
+        routeid (str): the routeid to search for
+    returns:
+        longest_shape (str): the shape with the longest list of coordinates
+    '''
+    longest_shape = None
+    highest = 0
+    for shape in routes[routeid]['shape_ids']:
+        if len(shapes[shape]) > highest:
+            highest = len(shapes[shape])
+            longest_shape = shape
+    return longest_shape
+
 def save_data(routes,shapes,disruptions,pickle_file_path):
     '''
     purpose: saves pickled data to a file
@@ -306,7 +324,7 @@ def draw_shape_id(win, shapes, shape_id):
     '''
 
     coords = shapes[shape_id]
-    print(coords)
+    #print(coords)
 
     for index in range(0, len(coords) - 1):
         lat1, lon1 = coords[index]
@@ -375,22 +393,71 @@ def graphical_interface(routes, route_names, shapes, disruptions):
     clear_text.setSize(12)
     clear_text.draw(win)
 
-    click_point = win.getMouse()
-
-    if in_rectangle(click_point, search_button):
-        pass
-    elif in_rectangle(click_point, clear_button):
-        from_entry.setText('')    
-        to_entry.setText('')
+    feedback_text = Text(Point(60.0,175), "")
+    feedback_text.draw(win)
 
     # Draw disruptions
     draw_disruptions(win, disruptions)
+    while True:
+        try:
+            click_point = win.getMouse()
+        except GraphicsError:
+            break
+       
+        if in_rectangle(click_point, search_button):                       
+            fromvar = from_entry.getText()  
+            tovar = to_entry.getText()
+            # Search for routes
+            shape_id = search(routes,shapes,fromvar,tovar,feedback_text)
+            if shape_id == None:
+                pass
+            else:
+                # Draw according to shape_id
+                draw_shape_id(win, shapes, shape_id)
+        elif in_rectangle(click_point, clear_button):
+            from_entry.setText('')    
+            to_entry.setText('')
 
-    # Search for routes
-    # Draw according to shape_id
-    draw_shape_id(win, shapes, '123-3-North')
+        
+        
 
-
+def search(routes,shapes,fromvar, tovar,feedback_text):
+    '''
+    purpose: Search for the longest shape_id connected to the given route name
+    parameters: 
+        - routes (dictionary): dictionary with route_id, route_name, and associated shape_ids  
+        - shapes (dictionary): dictionary with shape_ids and coordinates
+        - fromvar ()
+        - tovar ()
+        - feedback_text (graphics text): Text to change to provide feedback to the user
+    return
+        - None
+    '''
+    longest_shape = None
+    route_id = None
+    if fromvar == '':
+        for route in routes:
+            if len(routes[route]["name"].strip('"').split(' - ')) == 1 and tovar in routes[route]["name"].strip('"').split(' - '):
+                longest_shape = get_longest_shape_helper(routes,shapes,route)
+                route_id = route
+                break
+    elif tovar == '':
+        for route in routes:
+            if len(routes[route]["name"].strip('"').split(' - ')) == 1 and fromvar in routes[route]["name"].strip('"').split(' - '):
+                longest_shape = get_longest_shape_helper(routes,shapes,route)
+                route_id = route
+                break
+    else:
+        for route in routes:     
+            if fromvar in routes[route]["name"].strip('"').split(' - ') and tovar in routes[route]["name"].strip('"').split(' - '):
+                longest_shape = get_longest_shape_helper(routes,shapes,route)
+                route_id = route
+                break
+    if route_id == None:
+        feedback_text.setText(f"NOT FOUND")
+    else:
+        feedback_text.setText(f"Drawing route {route_id}")
+    return longest_shape
 
 def main():
     '''
@@ -480,7 +547,7 @@ Edmonton Transit System
                 print("Route data hasn't been loaded yet")
             elif shapes == None:
                 print("Shape ID data hasn't been loaded yet")
-            else:
+            else:                
                 longest_shape(routes,shapes)
         elif user_input == '7':
             # Save route_names, routes, shapes in a pickle
