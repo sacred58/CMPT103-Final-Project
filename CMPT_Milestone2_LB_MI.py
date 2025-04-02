@@ -421,8 +421,8 @@ def graphical_interface(routes, route_names, shapes, disruptions):
             break
        
         if in_rectangle(click_point, search_button):                       
-            fromvar = from_entry.getText()  
-            tovar = to_entry.getText()
+            fromvar = from_entry.getText().strip() 
+            tovar = to_entry.getText().strip()
             # Search for routes
             shape_id = search(routes,shapes,fromvar,tovar,feedback_text)
             if shape_id == None:
