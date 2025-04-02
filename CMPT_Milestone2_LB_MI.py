@@ -435,29 +435,40 @@ def search(routes,shapes,fromvar, tovar,feedback_text):
     parameters: 
         - routes (dictionary): dictionary with route_id, route_name, and associated shape_ids  
         - shapes (dictionary): dictionary with shape_ids and coordinates
-        - fromvar ()
-        - tovar ()
+        - fromvar (string): text from the 'from' text box
+        - tovar (string): text from the 'to' text box
         - feedback_text (graphics text): Text to change to provide feedback to the user
     return
-        - None
+        - longest_shape (string): the string with the most coordinates connected to the route
     '''
+    fromvar = fromvar.lower()
+    tovar = tovar.lower()
     longest_shape = None
     route_id = None
     if fromvar == '':
         for route in routes:
-            if len(routes[route]["name"].strip('"').split(' - ')) == 1 and tovar in routes[route]["name"].strip('"').split(' - '):
+            route_names = routes[route]["name"].strip('"').split(' - ')
+            for i in range(len(route_names)):
+                route_names[i] = route_names[i].lower()
+            if len(route_names) == 1 and tovar in route_names:
                 longest_shape = get_longest_shape_helper(routes,shapes,route)
                 route_id = route
                 break
     elif tovar == '':
         for route in routes:
-            if len(routes[route]["name"].strip('"').split(' - ')) == 1 and fromvar in routes[route]["name"].strip('"').split(' - '):
+            route_names = routes[route]["name"].strip('"').split(' - ')
+            for i in range(len(route_names)):
+                route_names[i] = route_names[i].lower()
+            if len(route_names) == 1 and fromvar in route_names:
                 longest_shape = get_longest_shape_helper(routes,shapes,route)
                 route_id = route
                 break
     else:
-        for route in routes:     
-            if fromvar in routes[route]["name"].strip('"').split(' - ') and tovar in routes[route]["name"].strip('"').split(' - '):
+        for route in routes:
+            route_names = routes[route]["name"].strip('"').split(' - ')
+            for i in range(len(route_names)):
+                route_names[i] = route_names[i].lower()
+            if fromvar in route_names and tovar in route_names:
                 longest_shape = get_longest_shape_helper(routes,shapes,route)
                 route_id = route
                 break
