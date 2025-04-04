@@ -487,6 +487,22 @@ def search(routes,shapes,fromvar, tovar,feedback_text):
         feedback_text.setText(f"Drawing route {route_id}")
     return longest_shape
 
+def collect_filename(default_file_path: str) -> str:
+    '''
+    purpose: Collects user input and returns default file path if user doesn't enter anything
+    parameters:
+        - default_file_path (str)
+    return:
+        - filename (str)
+    '''
+    filename = input("Enter a filename: ").strip()
+
+    if filename == '':
+        filename = default_file_path
+    
+    return filename
+
+
 def main():
     '''
     purpose: Runs a menu to select other functions to load and view transit data
@@ -526,31 +542,16 @@ Edmonton Transit System
         user_input = input("Enter Comand: ").strip()
 
         if user_input == '1':
-            # Prompt user for file name (With default set to default path)
-            filename = input("Enter a filename: ").strip()
-
-            # If user does not enter anything, default to the default trips file path
-            if filename == '':
-                filename = trips_file_path
-            
+            filename = collect_filename(trips_file_path)
             route_names = load_route_names(route_file_path)
             routes = load_routes(filename, route_names)
 
         elif user_input == '2':
-            #Prompt user for file name (With default set to the default path)
-            filename = input("Enter a filename: ").strip()
-
-            if filename == '':
-                filename = shapes_file_path
-
+            filename = collect_filename(shapes_file_path)
             shapes = load_shapes(filename)
             
         elif user_input == '3':
-            filename = input('Enter a filename:').strip()
-
-            if filename == '':
-                filename = disruptions_file_path
-
+            filename = collect_filename(disruptions_file_path)
             disruptions = load_disruptions(filename)
             
         elif user_input == '4':
