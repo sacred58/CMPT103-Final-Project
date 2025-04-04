@@ -366,7 +366,7 @@ def in_rectangle(click_point, rect) -> bool:
 
     return x_check and y_check
         
-def graphical_interface(routes, route_names, shapes, disruptions):
+def graphical_interface(routes, shapes, disruptions):
     '''
     purpose: Define window with map and call coresponding helper functions for all functionality
     parameters: 
@@ -502,6 +502,95 @@ def collect_filename(default_file_path: str) -> str:
     
     return filename
 
+def print_shape_coordinates(shapes):
+    '''
+    purpose: Print a list of coordinates attached to the inputted shapeid
+    parameters: 
+        - shapes (dictionary): dictionary with shape_ids and coordinates
+    return
+        None
+    '''
+    if shapes == None:
+        print("Shape ID data hasn't been loaded yet")
+    else:
+        user_input = input("Enter shape ID: ").strip()
+        search_shape_id(shapes, user_input)
+
+
+def find_longest_shape(routes,shapes):
+    '''
+    purpose: Search for the longest shape_id connected to the given route name
+    parameters: 
+        - routes (dictionary): dictionary with route_id, route_name, and associated shape_ids  
+        - shapes (dictionary): dictionary with shape_ids and coordinates
+    return
+        None  
+    '''
+    if routes == None:
+        print("Route data hasn't been loaded yet")
+    elif shapes == None:
+        print("Shape ID data hasn't been loaded yet")
+    else:                
+        longest_shape(routes,shapes)
+
+def save_data_to_pickle (routes, shapes,disruptions,pickle_file_path):
+    '''
+    purpose: Search for the longest shape_id connected to the given route name
+    parameters: 
+        - routes (dictionary): dictionary with route_id, route_name, and associated shape_ids  
+        - shapes (dictionary): dictionary with shape_ids and coordinates
+        - disruptions (set): set with traffic disruptions locations and dates they are active
+        - pickle_file_path (string): default file path to save the pickle to
+    return
+        None  
+    '''
+    # Save route_names, routes, shapes in a pickle
+    filename = input("Enter a filename: ")
+    if filename == '':
+        filename = pickle_file_path
+    save_data(routes,shapes,disruptions,filename)
+    print(f"Data structures successfully written to {filename}")
+
+def load_data_from_pickle(routes, shapes,disruptions,pickle_file_path):
+    '''
+    purpose: Search for the longest shape_id connected to the given route name
+    parameters: 
+        - routes (dictionary): dictionary with route_id, route_name, and associated shape_ids  
+        - shapes (dictionary): dictionary with shape_ids and coordinates
+        - disruptions (set): set with traffic disruptions locations and dates they are active
+        - pickle_file_path (string): default file path to load from
+    return
+        None  
+    '''
+    # Load route_names, routes, shapes from the aforementioned pickle
+    filename = input("Enter a filename: ")
+    if filename == '':
+        filename = pickle_file_path
+    try:
+        routes, shapes,disruptions = load_data(filename)      
+    except:
+        pass
+    if routes != None and shapes != None and disruptions != None:
+        print(f'Data from {filename} loaded')
+    return routes, shapes,disruptions
+
+def load_interactive_map(routes,shapes,disruptions):
+    '''
+    purpose: Search for the longest shape_id connected to the given route name
+    parameters: 
+        - routes (dictionary): dictionary with route_id, route_name, and associated shape_ids  
+        - shapes (dictionary): dictionary with shape_ids and coordinates
+        - disruptions (set): set with traffic disruptions locations and dates they are active
+    return
+        None  
+    '''
+    # Start graphical interface
+    if routes == None or shapes == None or disruptions == None:
+        print('ETS transit information not loaded yet')
+    else:
+        graphical_interface(routes, shapes, disruptions)
+
+
 
 def main():
     '''
@@ -562,49 +651,15 @@ Edmonton Transit System
                 get_shapeid(routes)
             continue
         elif user_input == '5':
-
-            if shapes == None:
-                print("Shape ID data hasn't been loaded yet")
-            else:
-                user_input = input("Enter shape ID: ").strip()
-                search_shape_id(shapes, user_input)
-
- 
-            continue
+            print_shape_coordinates(shapes)           
         elif user_input == '6':
-            if routes == None:
-                print("Route data hasn't been loaded yet")
-            elif shapes == None:
-                print("Shape ID data hasn't been loaded yet")
-            else:                
-                longest_shape(routes,shapes)
+            find_longest_shape(routes,shapes)
         elif user_input == '7':
-            # Save route_names, routes, shapes in a pickle
-            filename = input("Enter a filename: ")
-            if filename == '':
-                filename = pickle_file_path
-            save_data(routes,shapes,disruptions,filename)
-            print(f"Data structures successfully written to {filename}")
-            continue
+            save_data_to_pickle(routes, shapes,disruptions,pickle_file_path)
         elif user_input == '8':
-            # Load route_names, routes, shapes from the aforementioned pickle
-            filename = input("Enter a filename: ")
-            if filename == '':
-                filename = pickle_file_path
-            try:
-                routes, shapes,disruptions = load_data(filename)
-            except:
-                continue
-
-            print(f'Data from {filename} loaded')
-            
-            continue
+            routes, shapes,disruptions = load_data_from_pickle(routes,shapes,disruptions, pickle_file_path)
         elif user_input == '9':
-            # Start graphical interface
-            if routes == None or shapes == None or disruptions == None:
-                print('ETS transit information not loaded yet')
-            else:
-                graphical_interface(routes, route_file_path, shapes, disruptions)
+            load_interactive_map(routes,shapes,disruptions)
         elif user_input == '0':
             break
 
